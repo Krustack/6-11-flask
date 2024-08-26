@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/styles.css">
+
+</head>
+<body>
+    <h1>Todo list</h1>
+    {% if edit_post %}
+    <form class="form-control" method="post" action="/edit">
+        <label for="author">บทความ:</label>
+        <input type="text" name="text" value="{{edit_post['text']}}" />
+        <label for="author">ผู้เขียน:</label>
+        <input type="text" name="author" value="{{edit_post['author']}}" />
+        <input type="hidden" name="id" value="{{edit_post['id']}}" />
+        <button>edit</button>
+    </form>
+    {% else %}
+    <form class="form-control" method="post" action="/add">
+        <label for="author">บทความ:</label>
+        <input type="text" name="text">
+        <label for="author">ผู้เขียน:</label>
+        <input type="text" name="author">
+
+        <button>add</button>
+    </form>
+    {% endif %}
+    <ul>
+        {% for post in posts %}
+        <li>
+            <div class='post'>
+                <p class="title">{{post['text']}} </p>
+                <form method="post" action="/">
+                    <input type="hidden" value="{{post['id']}}" name="id" />
+                    <button>edit</button>
+                </form>
+                <form method="post" action="/delete">
+                    <input type="hidden" value="{{post['id']}}" name="id" />
+                    <button>delete</button>
+                </form>
+            </div>
+            <p style="padding-left:8px;padding-bottom:6px">ผู้เขียน:{{post['author']}}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>
